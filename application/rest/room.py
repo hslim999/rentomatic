@@ -1,8 +1,12 @@
-# import sys
-# sys.path.append(r'C:\Users\Administrator\Desktop\새 폴더\git')
-# print(sys.path)
+import json
+
+from flask import Blueprint, Response
+
 from rentomatic.repository.memrepo import MemRepo
 from rentomatic.use_cases.room_list import room_list_use_case
+from rentomatic.serializers.room import RoomJsonEncoder
+
+blueprint = Blueprint("room", __name__)
 
 rooms = [
     {
@@ -35,8 +39,13 @@ rooms = [
     },
 ]
 
-repo = MemRepo(rooms)
-result = room_list_use_case(repo)
+@blueprint.route("/rooms", methods=["GET"])
+def room_list():
+    repo = MemRepo(rooms)
+    result = room_list_use_case(repo)
 
-# print([room.to_dict() for room in result])
-print(result)
+    return Response(
+        json.dumps(result, cls=RoomJsonEncoder),
+        mimetype="application/json",
+        status=200,
+    )

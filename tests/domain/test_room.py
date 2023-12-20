@@ -41,7 +41,7 @@ def test_room_model_to_dict():
         "code" : uuid.uuid4(),
         "size" : 200,
         "price" : 10,
-        "longtitude" : -0.09998975,
+        "longitude" : -0.09998975,
         "latitude" : 51.75436293,
     }
     room = Room.from_dict(init_dict)
